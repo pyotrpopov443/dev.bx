@@ -14,3 +14,8 @@ function info($text)
 {
 	echo 'Info: ' . $text;
 }
+
+function error($text)
+{
+	echo 'Error: ' . $text;
+}
