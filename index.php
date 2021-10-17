@@ -2,4 +2,12 @@
 /** @var array $movies */
 require "movies.php";
 
-printMovies($movies);
+$age = readline("Enter your age:");
+if (is_numeric($age))
+{
+	printMoviesRestricted($movies, $age);
+}
+else
+{
+	echo "Invalid age";
+}

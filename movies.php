@@ -1,13 +1,19 @@
 <?php
 
 //functions
-function printMovies(array $movies)
+
+function printMoviesRestricted(array $movies, int $age)
 {
 	$moviesCount = count($movies);
 	for ($i = 0; $i < $moviesCount; $i++)
 	{
 		$movie = $movies[$i];
-		printLine(formatMovieItem($i, $movie));
+		$ageRestriction = $movie["age_restriction"];
+		if ($ageRestriction <= $age)
+		{
+			$formattedMovie = formatMovieItem($i, $movie);
+			printLine($formattedMovie);
+		}
 	}
 }
 
@@ -32,7 +38,9 @@ function printLine(string $messageToPrint)
 	echo $messageToPrint . "\n";
 }
 
+
 //data
+
 $movies = [
 	[
 		"title" => "The Shawshank Redemption",
