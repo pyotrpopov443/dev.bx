@@ -1,3 +1,5 @@
 <?php
+/** @var array $movies */
+require "movies.php";
 
-echo "Hello World!";
+printMovies($movies);
