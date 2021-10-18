@@ -4,15 +4,15 @@
 
 function printMoviesRestricted(array $movies, int $age)
 {
-	$moviesCount = count($movies);
-	for ($i = 0; $i < $moviesCount; $i++)
+	$i = 0;
+	foreach ($movies as $movie)
 	{
-		$movie = $movies[$i];
 		$ageRestriction = $movie["age_restriction"];
 		if ($ageRestriction <= $age)
 		{
 			$formattedMovie = formatMovieItem($i, $movie);
 			printLine($formattedMovie);
+			$i++;
 		}
 	}
 }

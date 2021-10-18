@@ -5,7 +5,7 @@ require "movies.php";
 $age = readline("Enter your age:");
 if (is_numeric($age))
 {
-	printMoviesRestricted($movies, $age);
+	printMoviesRestricted($movies, (int) $age);
 }
 else
 {
