@@ -1,0 +1,76 @@
+.movie {
+	display: inline-block;
+	width: 370px;
+	height: 700px;
+	margin: 16px;
+
+	border-radius: 20px;
+	background: white;
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.poster {
+	height: 430px;
+	border-radius: 20px 20px 0 0;
+	background: red;
+}
+
+.movie-header {
+	height: 79px;
+	margin: 15px 20px;
+	border-bottom: 1px solid #F2F2F2;
+}
+
+.title {
+	color: #333333;
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 30px;
+}
+
+.subtitle {
+	color: #999999;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 25px;
+}
+
+.description {
+	margin: 15px 20px;
+	overflow: auto;
+	color: #333333;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.movie-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0 20px;
+	color: #CCCCCC;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 22px;
+}
+
+.movie-duration {
+	display: flex;
+	align-items: center;
+}
+
+.movie-duration-icon {
+	display: block;
+	width: 22px;
+	height: 22px;
+	background: url("../drawable/ic_time.svg") no-repeat left;
+}
+
+.movie-genres {
+	font-size: 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
