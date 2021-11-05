@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
-@import 'movie.css';
-@import 'movie-details.css';
+@import "movie.css";
+@import "movie-details.css";
+@import "favorites.css";
+@import "add-movie.css";
+@import "plug.css";
 
 .wrapper {
 	display: flex;
@@ -160,6 +163,15 @@
 	width: 158px;
 	height: 40px;
 	margin: 0 51px;
+	text-decoration: none;
+	background: #4EE7B0;
+	color: white;
+}
+
+.movie-add-btn:hover {
+	color: #4EE7B0;
+	background: white;
+	border: 1px solid #4EE7B0;
 }
 
 .content {
