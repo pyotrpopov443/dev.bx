@@ -15,7 +15,7 @@ function formatDescription(string $description): string
 	return mb_strimwidth($description, 0, 180, "...");
 }
 
-function formatGenres(array $genres): string
+function formatArray(array $genres): string
 {
 	return implode(', ', $genres);
 }
@@ -35,4 +35,28 @@ function getMoviesByGenre(array $movies, string $genre = ""): array
 		}
 	}
 	return $filteredMovies;
+}
+
+function getMovieById(array $movies, int $id): array
+{
+	foreach ($movies as $movie)
+	{
+		if ($movie['id'] === $id)
+		{
+			return $movie;
+		}
+	}
+	return [
+		'id' => 0,
+		'title' => '',
+		'original-title' => '',
+		'description' => '',
+		'duration' => 0,
+		'genres' => [],
+		'cast' => [],
+		'director' => '',
+		'age-restriction' => 0,
+		'release-date' => 0,
+		'rating' => 0
+	];
 }

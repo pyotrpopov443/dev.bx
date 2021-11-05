@@ -7,24 +7,27 @@ require_once 'render.php';
 require_once 'data/movies.php';
 require_once 'helper-functions.php';
 
+$genre = $_GET['genre'] ?? "";
 
 if (isset($_GET['movie_id']))
 {
+	$id = $_GET['movie_id'];
 	$content = renderTemplate('res/layout/movie_details.php', [
-		'id' => $_GET['movie_id'],
-		'movies' => $movies
+		'movie' => getMovieById($movies, $id)
 	]);
 }
 else
 {
-	$genre = $_GET['genre'] ?? "";
 	$content = renderTemplate('res/layout/movie_list.php', [
 		'movies' => getMoviesByGenre($movies, $genre)
 	]);
 }
 
+$currentMenuItem = $genre === "" ? 'Главная' : $genre;
+
 $main = renderTemplate('res/layout/main.php', [
 	'genres' => $genres,
+	'currentMenuItem' => $currentMenuItem,
 	'content' => $content
 ]);
 

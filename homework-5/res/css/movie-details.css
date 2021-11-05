@@ -1,3 +1,148 @@
 .movie-detailed {
+	margin: 45px;
+	padding: 37px;
+	background: white;
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	color: black;
+}
 
+.movie-detailed--header {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 25px;
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.movie-detailed--title {
+	font-weight: bold;
+	font-size: 48px;
+	line-height: 65px;
+	color: #333333;
+}
+
+.movie-detailed--subtitle {
+	display: flex;
+	align-items: center;
+}
+
+.movie-detailed--subtitle-text {
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 33px;
+	color: #999999;
+}
+
+.movie-detailed--subtitle-age {
+	margin: 2px 8px;
+	padding: 2px 6px;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 25px;
+	border: 3px solid #CCCCCC;
+	border-radius: 7px;
+	color: #CCCCCC;
+}
+
+.movie-detailed--favourite {
+	margin-top: 21px;
+	width: 43px;
+	height: 37px;
+	background: url("../drawable/ic_like.svg");
+}
+
+.movie-detailed--favourite:hover {
+	background: url("../drawable/ic_like_active.svg");
+}
+
+.movie-detailed--favourite:active {
+	background: url("../drawable/ic_like_active.svg");
+}
+
+.movie-detailed--favourite:active:hover {
+	background: url("../drawable/ic_like.svg");
+}
+
+.movie-detailed--body {
+	display: flex;
+	padding-top: 21px;
+}
+
+.movie-detailed--poster {
+	display: block;
+	width: 469px;
+	height: 700px;
+	border: 12px solid #F2F2F2;
+}
+
+.movie-detailed--info {
+	flex: 1;
+	padding: 33px;
+}
+
+.movie-detailed--rating {
+	display: flex;
+	align-items: center;
+	padding-left: 18px;
+}
+
+.movie-detailed--rating-on {
+	margin: 5px;
+	width: 17px;
+	height: 17px;
+	background: #E78818;
+}
+
+.movie-detailed--rating-off {
+	margin: 5px;
+	width: 17px;
+	height: 17px;
+	background: #F2F2F2;
+}
+
+.movie-detailed--rating-text {
+	display: block;
+	width: 55px;
+	height: 55px;
+	border-radius: 100%;
+	margin-left: 18px;
+
+	font-weight: bold;
+	font-size: 22px;
+	line-height: 55px;
+	text-align: center;
+
+	color: #FFFFFF;
+	background: #E78818;
+}
+
+.movie-detailed--info-block-title {
+	padding: 15px 0;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 33px;
+	color: #333333;
+}
+
+.movie-detailed--about-block {
+	display: flex;
+	padding: 5px 0;
+}
+
+.movie-detailed--about-name {
+	width: 220px;
+	font-size: 16px;
+	line-height: 22px;
+	color: #666666;
+}
+
+.movie-detailed--about-text {
+	font-size: 16px;
+	line-height: 22px;
+}
+
+.movie-detailed--description {
+	font-size: 18px;
+	line-height: 28px;
 }

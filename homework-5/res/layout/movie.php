@@ -19,6 +19,6 @@
 			<div class="movie-duration-icon"></div>
 			<div class="movie-duration-text"><?= formatDuration($movie['duration'])?></div>
 		</div>
-		<div class="movie-genres"><?= formatGenres($movie['genres']); ?></div>
+		<div class="movie-genres"><?= formatArray($movie['genres']); ?></div>
 	</div>
 </div>

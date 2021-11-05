@@ -1,6 +1,7 @@
 <?php
 /** @var array $genres */
 /** @var array $content */
+/** @var array $currentMenuItem */
 ?>
 
 <!doctype html>
@@ -21,17 +22,22 @@
 		<div class="logo"></div>
 		<div class="navigation">
 			<div class="menu-item">
-				<a href="index.php">Главная</a>
+				<a href="index.php"
+				   class="<?= $currentMenuItem==='Главная' ? 'menu-item-active' : '';?>">Главная</a>
 			</div>
 
 			<?php foreach ($genres as $genre):?>
 				<div class="menu-item">
-					<a href="index.php?genre=<?= $genre?>"><?= $genre?></a>
+					<a href="index.php?genre=<?= $genre?>"
+					   class="<?= $currentMenuItem===$genre ? 'menu-item-active' : '';?>">
+						<?= $genre?>
+					</a>
 				</div>
 			<?php endforeach;?>
 
 			<div class="menu-item">
-				<a href="#Избранное">Избранное</a>
+				<a href="#Избранное"
+				   class="<?= $currentMenuItem==='Избранное' ? 'menu-item-active' : '';?>">Избранное</a>
 			</div>
 		</div>
 	</div>
