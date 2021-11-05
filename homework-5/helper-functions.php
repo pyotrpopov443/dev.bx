@@ -37,6 +37,50 @@ function getMoviesByGenre(array $movies, string $genre = ""): array
 	return $filteredMovies;
 }
 
+function contains(string $str, string $substr): bool
+{
+	return strpos($str, $substr) !== false;
+}
+
+function implodeMovie(array $movie): string
+{
+	$movieImploded = "";
+	foreach ($movie as $key => $parameter)
+	{
+		if ($key === 'id')
+		{
+			continue;
+		}
+		if (is_array($parameter))
+		{
+			$movieImploded .= implode($parameter);
+		}
+		else
+		{
+			$movieImploded .= $parameter;
+		}
+	}
+	return mb_strtolower($movieImploded);
+}
+
+function getMoviesByQuery(array $movies, string $query = ""): array
+{
+	if ($query === "")
+	{
+		return $movies;
+	}
+	$query = mb_strtolower($query);
+	$filteredMovies = [];
+	foreach ($movies as $movie)
+	{
+		if (contains(implodeMovie($movie), $query))
+		{
+			$filteredMovies[] = $movie;
+		}
+	}
+	return $filteredMovies;
+}
+
 function getMovieById(array $movies, int $id): array
 {
 	foreach ($movies as $movie)

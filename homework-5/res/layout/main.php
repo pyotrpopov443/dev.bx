@@ -45,11 +45,13 @@
 	<div class="container">
 		<div class="searchbar">
 			<div class="search">
-				<div class="search-line">
-					<div class="search-icon"></div>
-					<div class="search-field">Поиск по каталогу...</div>
-				</div>
-				<div class="btn search-btn">Искать</div>
+				<form action="" method="post" enctype="multipart/form-data" class="search-form">
+					<div class="search-line">
+						<div class="search-icon"></div>
+							<input type="text" id="query" name="query" class="search-field" placeholder="Поиск по каталогу...">
+					</div>
+					<input type="submit" value="Искать" class="btn search-btn">
+				</form>
 			</div>
 			<div class="btn movie-add-btn">Добавить фильм</div>
 		</div>

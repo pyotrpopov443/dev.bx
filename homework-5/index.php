@@ -8,6 +8,7 @@ require_once 'data/movies.php';
 require_once 'helper-functions.php';
 
 $genre = $_GET['genre'] ?? "";
+$query = $_POST['query'] ?? "";
 
 if (isset($_GET['movie_id']))
 {
@@ -18,8 +19,10 @@ if (isset($_GET['movie_id']))
 }
 else
 {
+	$filteredMoviesByGenre = getMoviesByGenre($movies, $genre);
+	$filteredMoviesByQuery = getMoviesByQuery($filteredMoviesByGenre, $query);
 	$content = renderTemplate('res/layout/movie_list.php', [
-		'movies' => getMoviesByGenre($movies, $genre)
+		'movies' => $filteredMoviesByQuery
 	]);
 }
 

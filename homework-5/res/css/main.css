@@ -119,15 +119,24 @@
 	background: url("../drawable/ic_search.svg") no-repeat;
 }
 
+.search-form {
+	display: flex;
+	align-items: center;
+	flex: 1;
+}
+
 .search-field {
-	color: #999999;
 	margin: 0 19px;
+	flex: 1;
 
 	font-family: 'Open Sans', sans-serif;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 18px;
 	line-height: 40px;
+	border: none transparent;
+	outline: none;
+	color: #999999;
 }
 
 .search-btn {
@@ -135,7 +144,15 @@
 	width: 89px;
 	height: 40px;
 	margin: 0 15px;
+	color: white;
 	background: #E7A04E;
+	border: none;
+}
+
+.search-btn:hover {
+	color: #E7A04E;
+	background: white;
+	border: 1px solid #E7A04E;
 }
 
 .movie-add-btn {
