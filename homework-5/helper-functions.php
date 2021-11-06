@@ -15,9 +15,9 @@ function formatDescription(string $description): string
 	return mb_strimwidth($description, 0, 180, "...");
 }
 
-function formatArray(array $genres): string
+function formatArray(array $arr): string
 {
-	return implode(', ', $genres);
+	return implode(', ', $arr);
 }
 
 function getMoviesByGenre(array $movies, string $genre = ""): array
@@ -42,12 +42,12 @@ function contains(string $str, string $substr): bool
 	return strpos($str, $substr) !== false;
 }
 
-function implodeMovie(array $movie): string
+function implodeMovie(array $movie, array $config): string
 {
 	$movieImploded = "";
 	foreach ($movie as $key => $parameter)
 	{
-		if ($key === 'id')
+		if (!in_array($key, $config['movie_search_fields']))
 		{
 			continue;
 		}
@@ -63,7 +63,7 @@ function implodeMovie(array $movie): string
 	return mb_strtolower($movieImploded);
 }
 
-function getMoviesByQuery(array $movies, string $query = ""): array
+function getMoviesByQuery(array $movies, string $query, array $config): array
 {
 	if ($query === "")
 	{
@@ -73,7 +73,7 @@ function getMoviesByQuery(array $movies, string $query = ""): array
 	$filteredMovies = [];
 	foreach ($movies as $movie)
 	{
-		if (contains(implodeMovie($movie), $query))
+		if (contains(implodeMovie($movie, $config), $query))
 		{
 			$filteredMovies[] = $movie;
 		}
@@ -81,7 +81,15 @@ function getMoviesByQuery(array $movies, string $query = ""): array
 	return $filteredMovies;
 }
 
-function getMovieById(array $movies, int $id): array
+/**
+ * returns movie with id or false is movie doesn't exist
+ *
+ * @param array $movies
+ * @param int $id
+ *
+ * @return false|array
+ */
+function getMovieById(array $movies, int $id)
 {
 	foreach ($movies as $movie)
 	{
@@ -90,17 +98,5 @@ function getMovieById(array $movies, int $id): array
 			return $movie;
 		}
 	}
-	return [
-		'id' => 0,
-		'title' => '',
-		'original-title' => '',
-		'description' => '',
-		'duration' => 0,
-		'genres' => [],
-		'cast' => [],
-		'director' => '',
-		'age-restriction' => 0,
-		'release-date' => 0,
-		'rating' => 0
-	];
+	return false;
 }

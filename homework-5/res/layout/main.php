@@ -29,15 +29,15 @@
 					<?=$config['menu']['main']?></a>
 			</div>
 
-			<?php foreach ($genres as $genre):?>
+			<?php foreach ($genres as $key => $genre):?>
 				<div class="menu-item">
-					<a href="index.php?menu_item=<?= $genre?>"
+					<a href="index.php?menu_item=<?= $key?>"
 					   class="<?= $currentMenuItem===$genre ? 'menu-item-active' : '';?>"><?= $genre?></a>
 				</div>
 			<?php endforeach;?>
 
 			<div class="menu-item">
-				<a href="index.php?menu_item=<?= $config['menu']['favorites']?>"
+				<a href="favorites.php"
 				   class="<?= $currentMenuItem===$config['menu']['favorites'] ? 'menu-item-active' : '';?>">
 					<?=$config['menu']['favorites']?></a>
 			</div>
@@ -56,7 +56,7 @@
 					<input type="submit" value="Искать" class="btn search-btn">
 				</form>
 			</div>
-			<a class="btn movie-add-btn" href="index.php?add_movie=true">Добавить фильм</a>
+			<a class="btn movie-add-btn" href="add-movie.php">Добавить фильм</a>
 		</div>
 
 		<div class="content">

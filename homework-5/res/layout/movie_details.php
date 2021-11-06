@@ -19,11 +19,8 @@
 			background-size: cover;"></div>
 		<div class="movie-detailed--info">
 			<div class="movie-detailed--rating">
-				<?php for($i = 0; $i < round($movie['rating']) ; $i++):?>
-					<div class="movie-detailed--rating-on"></div>
-				<?php endfor;?>
-				<?php for($i = 0; $i < 10-round($movie['rating']); $i++):?>
-					<div class="movie-detailed--rating-off"></div>
+				<?php for($i = 1; $i <= 10; $i++):?>
+					<div class="rating-square <?= $i > round($movie['rating']) ? 'off' : ''?>"></div>
 				<?php endfor;?>
 				<div class="movie-detailed--rating-text"><?= $movie['rating']?></div>
 			</div>

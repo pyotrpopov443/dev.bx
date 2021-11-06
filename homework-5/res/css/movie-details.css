@@ -87,17 +87,14 @@
 	padding-left: 18px;
 }
 
-.movie-detailed--rating-on {
+.rating-square {
 	margin: 5px;
 	width: 17px;
 	height: 17px;
 	background: #E78818;
 }
 
-.movie-detailed--rating-off {
-	margin: 5px;
-	width: 17px;
-	height: 17px;
+.off {
 	background: #F2F2F2;
 }
 
