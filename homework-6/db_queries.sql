@@ -34,7 +34,7 @@ SELECT m.ID, mt.TITLE, m.LENGTH FROM movie m
 INNER JOIN director d on m.DIRECTOR_ID = d.ID
 INNER JOIN movie_title mt on m.ID = mt.MOVIE_ID
 WHERE d.NAME = 'Джеймс Кэмерон' AND mt.LANGUAGE_ID = 'ru'
-ORDER BY m.RATING DESC LIMIT 1;
+ORDER BY m.LENGTH DESC LIMIT 1;
 
 # 4. Вывести список фильмов с названием, сокращённым до 10 символов. Если название короче 10 символов – оставляем как есть.
 # Если длиннее – сокращаем до 10 символов и добавляем многоточие.
