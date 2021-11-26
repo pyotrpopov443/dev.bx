@@ -4,7 +4,7 @@ function renderTemplate(string $path, array $templateData = []): string
 {
 	if (!file_exists($path))
 	{
-		return "nofile";
+		return "";
 	}
 
 	extract($templateData, EXTR_OVERWRITE);
