@@ -36,7 +36,7 @@
 				</div>
 				<div class="movie-detailed--about-block">
 					<div class="movie-detailed--about-name">В главных ролях:</div>
-					<div class="movie-detailed--about-text"><?= $movie['cast']?></div>
+					<div class="movie-detailed--about-text"><?= formatArray($movie['cast'])?></div>
 				</div>
 			</div>
 			<h1 class="movie-detailed--info-block-title">Описание</h1>

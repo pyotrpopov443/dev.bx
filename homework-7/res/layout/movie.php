@@ -4,7 +4,7 @@
 
 <div class="movie">
 	<div class="movie-overlay">
-		<a class="more-btn" href="index.php?movie_id=<?= $movie['id']?>">Подробнее</a>
+		<a class="more-btn" href="detailed-movie.php?movie_id=<?= $movie['id']?>">Подробнее</a>
 	</div>
 	<div class="poster" style="
 		background: url('res/drawable/movie_posters/<?= $movie['id']?>.jpg') center no-repeat;

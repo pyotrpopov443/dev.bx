@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 require_once 'helper-functions.php';
 require_once 'data/db_connect.php';
 require_once 'data/db_movies.php';
@@ -13,32 +11,29 @@ $database = dbConnect($config['db_connection_settings']);
 $genres = getGenres($database);
 $actors = getActors($database);
 
-$menuItem = $_GET['menu_item'] ?? 'main';
-$query = $_GET['query'] ?? '';
+$id = is_numeric($_GET['movie_id']) ? (int)$_GET['movie_id'] : 0;
+$movie = getMovieById($database, $id);
 
-$genreId = array_key_exists($menuItem, $genres) ? $menuItem : '';
-$movies = getMovies($config['movie_search_columns'], $database, $genreId, $query);
-
-if (empty($movies))
+if ($movie === false)
 {
 	$content = renderTemplate('res/layout/plug.php', [
-		'plugText' => $config['strings']['movies_not_found']
+		'plugText' => $config['strings']['movie_not_found']
 	]);
 }
 else
 {
-	$movies = formatMovies($movies, $genres, $actors);
-	$content = renderTemplate('res/layout/movie_list.php', [
-		'movies' => $movies
+	$movie = formatMovie($movie, $genres, $actors);
+	$content = renderTemplate('res/layout/movie_details.php', [
+		'movie' => $movie
 	]);
 }
 
 $main = renderTemplate('res/layout/main.php', [
 	'config' => $config,
 	'genres' => $genres,
-	'currentMenuItem' => $menuItem,
+	'currentMenuItem' => 'null',
 	'content' => $content,
-	'query' => $query
+	'query' => ''
 ]);
 
 echo $main;

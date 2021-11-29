@@ -20,12 +20,36 @@ function formatArray(array $arr): string
 	return implode(', ', $arr);
 }
 
-function genresFromIds(array $genreIds, array $genres): array
+function escape(string $str): string
+{
+	return htmlspecialchars(trim($str), ENT_QUOTES);
+}
+
+function getValuesFromKeys(array $keys, array $array): array
 {
 	$genresNames = [];
-	foreach ($genreIds as $id)
+	foreach ($keys as $key)
 	{
-		$genresNames[] = $genres[$id];
+		$genresNames[] = $array[$key];
 	}
 	return $genresNames;
+}
+
+function formatMovie(array $movie, array $genres, array $actors): array
+{
+	$genreIds = explode(', ', $movie['genres']);
+	$movie['genres'] = getValuesFromKeys($genreIds, $genres);
+	$actorIds = explode(', ', $movie['cast']);
+	$movie['cast'] = getValuesFromKeys($actorIds, $actors);
+	return $movie;
+}
+
+function formatMovies(array $movies, array $genres, array $actors): array
+{
+	$formattedMovies = [];
+	foreach ($movies as $movie)
+	{
+		$formattedMovies[] = formatMovie($movie, $genres, $actors);
+	}
+	return $formattedMovies;
 }

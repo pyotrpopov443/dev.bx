@@ -47,7 +47,7 @@
 	<div class="container">
 		<div class="searchbar">
 			<div class="search">
-				<form action="index.php" method="post" enctype="multipart/form-data" class="search-form">
+				<form action="index.php" method="get" enctype="multipart/form-data" class="search-form">
 					<div class="search-line">
 						<div class="search-icon"></div>
 							<input type="text" id="query" name="query" class="search-field" placeholder="Поиск по каталогу..."

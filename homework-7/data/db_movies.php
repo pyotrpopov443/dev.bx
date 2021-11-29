@@ -1,33 +1,10 @@
 <?php
 
-function getBaseMoviesQuery(): string
-{
-	return "
-		SELECT movie.ID as id,
-			   TITLE as title,
-			   ORIGINAL_TITLE as 'original-title',
-			   DESCRIPTION as description,
-			   DURATION as duration,
-			   d.NAME as director,
-			   AGE_RESTRICTION as 'age-restriction',
-			   RELEASE_DATE as 'release-date',
-			   RATING as rating,
-		(SELECT GROUP_CONCAT(genre.CODE SEPARATOR ', ') FROM genre
-		inner join movie_genre ma on genre.ID = ma.GENRE_ID
-		WHERE movie.ID = ma.MOVIE_ID) genres,
-		(SELECT GROUP_CONCAT(actor.NAME SEPARATOR ', ') FROM actor
-		inner join movie_actor ma on actor.ID = ma.ACTOR_ID
-		WHERE movie.ID = ma.MOVIE_ID) cast
-		FROM movie
-		inner join director d on d.ID = movie.DIRECTOR_ID
-	";
-}
-
 function getGenres(mysqli $database): array
 {
 	$genres = [];
 
-	$query = "SELECT CODE, NAME FROM dev.genre";
+	$query = "SELECT ID, NAME FROM dev.genre";
 
 	$result = mysqli_query($database, $query);
 	if (!$result)
@@ -38,35 +15,87 @@ function getGenres(mysqli $database): array
 
 	while ($row = mysqli_fetch_assoc($result))
 	{
-		$id = $row["CODE"];
+		$id = $row["ID"];
 		$name = $row["NAME"];
 		$genres[$id] = $name;
 	}
 	return $genres;
 }
 
-function getMovies(array $columns, mysqli $database, array $genres, string $genre = "", string $query = ""): array
+function getActors(mysqli $database): array
+{
+	$actors = [];
+
+	$query = "SELECT ID, NAME FROM dev.actor";
+
+	$result = mysqli_query($database, $query);
+	if (!$result)
+	{
+		$error = mysqli_errno($database) . ": " . mysqli_error($database);
+		trigger_error($error, E_USER_ERROR);
+	}
+
+	while ($row = mysqli_fetch_assoc($result))
+	{
+		$id = $row["ID"];
+		$name = $row["NAME"];
+		$actors[$id] = $name;
+	}
+	return $actors;
+}
+
+function getBaseMoviesQuery(): string
+{
+	return "
+		SELECT movie.ID as id,
+				TITLE as title,
+				ORIGINAL_TITLE as 'original-title',
+				DESCRIPTION as description,
+				DURATION as duration,
+				d.NAME as director,
+				AGE_RESTRICTION as 'age-restriction',
+				RELEASE_DATE as 'release-date',
+				RATING as rating,
+				(SELECT GROUP_CONCAT(mg.GENRE_ID SEPARATOR ', ') FROM movie_genre mg
+				WHERE movie.ID = mg.MOVIE_ID) genres,
+				(SELECT GROUP_CONCAT(ma.ACTOR_ID SEPARATOR ', ') FROM movie_actor ma
+				WHERE movie.ID = ma.MOVIE_ID) cast
+		FROM movie
+		inner join director d on d.ID = movie.DIRECTOR_ID
+	";
+}
+
+function getMovies(array $columns, mysqli $database, string $genreId = "", string $query = ""): array
 {
 	$movies = [];
 
-	$generalQuery = getBaseMoviesQuery();
-
 	$columnList = implode(',', $columns);
+	$query = escape($query);
+
+	$generalQuery = getBaseMoviesQuery();
 
 	$movieByGenreQuery = $generalQuery;
 
-	if ($genre !== "")
+	if ($genreId !== "")
 	{
 		$movieByGenreQuery .= "
 			inner join movie_genre mg on movie.ID = mg.MOVIE_ID
-			inner join genre g on mg.GENRE_ID = g.ID
-			WHERE g.NAME = '$genre'
+			WHERE mg.GENRE_ID = '$genreId'
 		";
 	}
 
 	if ($query !== "")
 	{
-		$movieByGenreQuery = "SELECT * FROM (" . $movieByGenreQuery . ") movies
+		//простите, ничего более элегантного не смог придумать, может есть какой-то более эффективный способ
+		$movieByGenreQuery = "
+			SELECT * FROM(
+				SELECT *,
+				(SELECT GROUP_CONCAT(a.NAME) from actor a
+				WHERE CONCAT(', ', cast, ',') like CONCAT('%, ',a.ID,',%')) actors,
+				(SELECT GROUP_CONCAT(g.NAME) from genre g
+				WHERE CONCAT(', ', genres, ',') like CONCAT('%, ',g.ID,',%')) genreNames
+				FROM (" . $movieByGenreQuery . ") moviesWithIds
+			) moviesWithActorsAndGenres
 			WHERE CONCAT($columnList) like '%$query%'
 		";
 	}
@@ -80,8 +109,6 @@ function getMovies(array $columns, mysqli $database, array $genres, string $genr
 
 	while ($row = mysqli_fetch_assoc($result))
 	{
-		$genreIds = explode(', ', $row['genres']);
-		$row['genres'] = genresFromIds($genreIds, $genres);
 		$movies[] = $row;
 	}
 	return $movies;
