@@ -95,7 +95,7 @@ function getMovies(mysqli $database, string $genreId = "", string $query = ""): 
 	if ($isGenre && $isQuery)
 	{
 		$query = "%$query%";
-		mysqli_stmt_bind_param($preparedStatement, "s", $genreId, $query);
+		mysqli_stmt_bind_param($preparedStatement, "ss", $genreId, $query);
 	}
 	else if ($isGenre)
 	{
@@ -139,10 +139,19 @@ function getMovieById(mysqli $database, int $id)
 	$baseDbQuery = getBaseMoviesQuery();
 
 	$dbQuery = $baseDbQuery . "
-		where movie.ID = $id
+		where movie.ID = ?
 	";
 
-	$result = mysqli_query($database, $dbQuery);
+	$preparedStatement = mysqli_prepare($database, $dbQuery);
+	mysqli_stmt_bind_param($preparedStatement, "i", $id);
+
+	$executeResult = mysqli_stmt_execute($preparedStatement);
+	if (!$executeResult)
+	{
+		processDbError($database);
+	}
+
+	$result = mysqli_stmt_get_result($preparedStatement);
 	if (!$result)
 	{
 		processDbError($database);
