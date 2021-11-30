@@ -3,6 +3,7 @@ USE dev;
 CREATE TABLE IF NOT EXISTS director (
 	ID int not null auto_increment,
 	NAME varchar(500) not null,
+
 	PRIMARY KEY (ID)
 );
 
@@ -27,12 +28,14 @@ CREATE TABLE movie (
 CREATE TABLE actor (
 	ID int not null auto_increment,
 	NAME varchar(500) not null,
+
 	PRIMARY KEY (ID)
 );
 
 CREATE TABLE movie_actor (
 	MOVIE_ID int not null,
 	ACTOR_ID int not null,
+
 	PRIMARY KEY (MOVIE_ID, ACTOR_ID),
 	FOREIGN KEY FK_MA_MOVIE (MOVIE_ID)
 		REFERENCES movie(ID)
@@ -48,12 +51,14 @@ CREATE TABLE genre (
 	ID int not null auto_increment,
 	CODE varchar(500) not null,
 	NAME varchar(500) not null,
+
 	PRIMARY KEY (ID)
 );
 
 CREATE TABLE movie_genre (
 	MOVIE_ID int not null,
 	GENRE_ID int not null,
+
 	PRIMARY KEY (MOVIE_ID, GENRE_ID),
 	FOREIGN KEY FK_MG_MOVIE (MOVIE_ID)
 		REFERENCES movie(ID)
@@ -63,4 +68,16 @@ CREATE TABLE movie_genre (
 		REFERENCES genre(ID)
 		ON UPDATE RESTRICT
 		ON DELETE RESTRICT
+);
+
+CREATE TABLE movie_index (
+	ID int not null,
+	MOVIE VARCHAR(1024),
+
+	PRIMARY KEY (ID),
+	FOREIGN KEY FK_MI_MOVIE(ID)
+		REFERENCES movie(ID)
+		ON UPDATE RESTRICT
+		ON DELETE RESTRICT,
+	INDEX(MOVIE(255))
 );

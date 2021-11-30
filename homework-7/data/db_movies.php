@@ -4,13 +4,12 @@ function getGenres(mysqli $database): array
 {
 	$genres = [];
 
-	$query = "SELECT ID, NAME FROM dev.genre";
+	$dbQuery = "SELECT ID, NAME FROM dev.genre";
 
-	$result = mysqli_query($database, $query);
+	$result = mysqli_query($database, $dbQuery);
 	if (!$result)
 	{
-		$error = mysqli_errno($database) . ": " . mysqli_error($database);
-		trigger_error($error, E_USER_ERROR);
+		processDbError($database);
 	}
 
 	while ($row = mysqli_fetch_assoc($result))
@@ -26,13 +25,12 @@ function getActors(mysqli $database): array
 {
 	$actors = [];
 
-	$query = "SELECT ID, NAME FROM dev.actor";
+	$dbQuery = "SELECT ID, NAME FROM dev.actor";
 
-	$result = mysqli_query($database, $query);
+	$result = mysqli_query($database, $dbQuery);
 	if (!$result)
 	{
-		$error = mysqli_errno($database) . ": " . mysqli_error($database);
-		trigger_error($error, E_USER_ERROR);
+		processDbError($database);
 	}
 
 	while ($row = mysqli_fetch_assoc($result))
@@ -65,46 +63,60 @@ function getBaseMoviesQuery(): string
 	";
 }
 
-function getMovies(array $columns, mysqli $database, string $genreId = "", string $query = ""): array
+function getMovies(mysqli $database, string $genreId = "", string $query = ""): array
 {
 	$movies = [];
 
-	$columnList = implode(',', $columns);
 	$query = escape($query);
 
-	$generalQuery = getBaseMoviesQuery();
+	$dbQuery = getBaseMoviesQuery();
 
-	$movieByGenreQuery = $generalQuery;
+	$isGenre = $genreId !== "";
+	$isQuery = $query !== "";
 
-	if ($genreId !== "")
+	if ($isGenre)
 	{
-		$movieByGenreQuery .= "
+		$dbQuery .= "
 			inner join movie_genre mg on movie.ID = mg.MOVIE_ID
-			WHERE mg.GENRE_ID = '$genreId'
+			WHERE mg.GENRE_ID = ?
 		";
 	}
 
-	if ($query !== "")
+	if ($isQuery)
 	{
-		//простите, ничего более элегантного не смог придумать, может есть какой-то более эффективный способ
-		$movieByGenreQuery = "
-			SELECT * FROM(
-				SELECT *,
-				(SELECT GROUP_CONCAT(a.NAME) from actor a
-				WHERE CONCAT(', ', cast, ',') like CONCAT('%, ',a.ID,',%')) actors,
-				(SELECT GROUP_CONCAT(g.NAME) from genre g
-				WHERE CONCAT(', ', genres, ',') like CONCAT('%, ',g.ID,',%')) genreNames
-				FROM (" . $movieByGenreQuery . ") moviesWithIds
-			) moviesWithActorsAndGenres
-			WHERE CONCAT($columnList) like '%$query%'
+		$dbQuery = "
+			SELECT * FROM movie_index
+			inner join ($dbQuery) m on movie_index.ID = m.ID
+			WHERE MOVIE like ?;
 		";
 	}
 
-	$result = mysqli_query($database, $movieByGenreQuery);
+	$preparedStatement = mysqli_prepare($database, $dbQuery);
+	if ($isGenre && $isQuery)
+	{
+		$query = "%$query%";
+		mysqli_stmt_bind_param($preparedStatement, "s", $genreId, $query);
+	}
+	else if ($isGenre)
+	{
+		mysqli_stmt_bind_param($preparedStatement, "s", $genreId);
+	}
+	else if ($isQuery)
+	{
+		$query = "%$query%";
+		mysqli_stmt_bind_param($preparedStatement, "s", $query);
+	}
+
+	$executeResult = mysqli_stmt_execute($preparedStatement);
+	if (!$executeResult)
+	{
+		processDbError($database);
+	}
+
+	$result = mysqli_stmt_get_result($preparedStatement);
 	if (!$result)
 	{
-		$error = mysqli_errno($database) . ": " . mysqli_error($database);
-		trigger_error($error, E_USER_ERROR);
+		processDbError($database);
 	}
 
 	while ($row = mysqli_fetch_assoc($result))
@@ -124,17 +136,16 @@ function getMovies(array $columns, mysqli $database, string $genreId = "", strin
  */
 function getMovieById(mysqli $database, int $id)
 {
-	$generalQuery = getBaseMoviesQuery();
+	$baseDbQuery = getBaseMoviesQuery();
 
-	$movieIdQuery = $generalQuery . "
+	$dbQuery = $baseDbQuery . "
 		where movie.ID = $id
 	";
 
-	$result = mysqli_query($database, $movieIdQuery);
+	$result = mysqli_query($database, $dbQuery);
 	if (!$result)
 	{
-		$error = mysqli_errno($database) . ": " . mysqli_error($database);
-		trigger_error($error, E_USER_ERROR);
+		processDbError($database);
 	}
 
 	if ($row = mysqli_fetch_assoc($result))

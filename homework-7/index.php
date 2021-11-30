@@ -17,7 +17,7 @@ $menuItem = $_GET['menu_item'] ?? 'main';
 $query = $_GET['query'] ?? '';
 
 $genreId = array_key_exists($menuItem, $genres) ? $menuItem : '';
-$movies = getMovies($config['movie_search_columns'], $database, $genreId, $query);
+$movies = getMovies($database, $genreId, $query);
 
 if (empty($movies))
 {

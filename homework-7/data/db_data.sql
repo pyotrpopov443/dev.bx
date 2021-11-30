@@ -209,3 +209,12 @@ VALUES (1, 1), (1, 2), (1, 3),
        (28, 7), (28, 2), (28, 11),
        (29, 2),
        (30, 8), (30, 2);
+
+INSERT INTO movie_index(ID, MOVIE) SELECT movie.ID, CONCAT(TITLE, RELEASE_DATE, d.NAME,
+	(SELECT GROUP_CONCAT(a.NAME) FROM movie m
+	inner join movie_actor ma on m.ID = ma.MOVIE_ID
+	inner join actor a on ma.ACTOR_ID = a.ID
+	WHERE movie.ID = m.ID GROUP BY m.ID),
+	DESCRIPTION, ORIGINAL_TITLE) content
+FROM movie
+inner join director d on d.ID = movie.DIRECTOR_ID;

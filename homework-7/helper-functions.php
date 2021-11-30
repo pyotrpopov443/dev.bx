@@ -53,3 +53,9 @@ function formatMovies(array $movies, array $genres, array $actors): array
 	}
 	return $formattedMovies;
 }
+
+function processDbError(mysqli $database): void
+{
+	$error = mysqli_errno($database) . ": " . mysqli_error($database);
+	trigger_error($error, E_USER_ERROR);
+}
