@@ -1,7 +1,6 @@
 <?php
 
-include '../../src/DataGenerator/FinancialTransactionsRu.php';
-include '../../src/Result.php';
+include '../../src/autoload.php';
 
 class FinancialTransactionsRuTest extends \PHPUnit\Framework\TestCase
 {
