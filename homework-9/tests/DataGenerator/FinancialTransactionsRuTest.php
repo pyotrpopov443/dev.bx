@@ -19,33 +19,6 @@ class FinancialTransactionsRuTest extends \PHPUnit\Framework\TestCase
 					'CorrespAcc' => '',
 				]
 			],
-			'one missing field' => [
-				[
-					'Name' => 'Peter',
-					'PersonalAcc' => '12345678901234567890',
-					'BankName' => 'SomeBank',
-					'BIC' => '123456789',
-				]
-			],
-			'value overflow' => [
-				[
-					'Name' => 'Peter',
-					'PersonalAcc' => '12345678901234567890',
-					'BankName' => 'SomeBank',
-					'BIC' => '12345678910', // overflow
-					'CorrespAcc' => '12345678901234567890',
-				]
-			],
-			'invalid value type' => [
-				[
-
-					'Name' => 'Peter',
-					'PersonalAcc' => '12345678901234567890',
-					'BankName' => false,
-					'BIC' => '123456789',
-					'CorrespAcc' => '12345678901234567890',
-				]
-			]
 		];
 	}
 
