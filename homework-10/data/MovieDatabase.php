@@ -1,12 +1,20 @@
 <?php
 
+require_once 'Actor.php';
+require_once 'Genre.php';
+require_once 'Movie.php';
+
 class MovieDatabase
 {
 	private $database;
+	private $genres;
+	private $actors;
 
 	public function __construct(array $connectionSettings)
 	{
 		$this->dbConnect($connectionSettings);
+		$this->genres = $this->getGenres();
+		$this->actors = $this->getActors();
 	}
 
 	private function dbConnect(array $connectionSettings): void
@@ -66,8 +74,7 @@ class MovieDatabase
 	{
 		$preparedStatement = mysqli_prepare($this->database, $query);
 
-
-		if (count($params) !== 0)
+		if (count($params) > 0)
 		{
 			$types = $this->getTypes(...$params);
 			mysqli_stmt_bind_param($preparedStatement, $types, ...$params);
@@ -90,34 +97,29 @@ class MovieDatabase
 
 	public function getGenres(): array
 	{
-		$genres = [];
-
-		$dbQuery = "SELECT ID, NAME FROM dev.genre";
+		$dbQuery = "SELECT ID, CODE, NAME FROM dev.genre";
 
 		$result = $this->getResult($dbQuery);
 
-		while ($row = mysqli_fetch_assoc($result))
+		$genres = [];
+		while ($genreData = mysqli_fetch_assoc($result))
 		{
-			$id = $row["ID"];
-			$name = $row["NAME"];
-			$genres[$id] = $name;
+			$genres[] = new Genre($genreData);
 		}
+
 		return $genres;
 	}
 
 	public function getActors(): array
 	{
-		$actors = [];
-
 		$dbQuery = "SELECT ID, NAME FROM dev.actor";
 
 		$result = $this->getResult($dbQuery);
 
-		while ($row = mysqli_fetch_assoc($result))
+		$actors = [];
+		while ($actorData = mysqli_fetch_assoc($result))
 		{
-			$id = $row["ID"];
-			$name = $row["NAME"];
-			$actors[$id] = $name;
+			$actors[] = new Actor($actorData);
 		}
 		return $actors;
 	}
@@ -143,27 +145,17 @@ class MovieDatabase
 		";
 	}
 
-	public function getMovieById(int $id)
+	private function prepareMovie(array $movieData): Movie
 	{
-		$baseDbQuery = $this->getBaseMoviesQuery();
-
-		$dbQuery = $baseDbQuery . "
-			where movie.ID = ?
-		";
-
-		$result = $this->getResult($dbQuery, $id);
-
-		if ($row = mysqli_fetch_assoc($result))
-		{
-			return $row;
-		}
-		return null;
+		$genresIds = explode(', ', $movieData['genres']);
+		$movieData['genres'] = getObjectsByIds($genresIds, $this->genres);
+		$actorsIds = explode(', ', $movieData['cast']);
+		$movieData['cast'] = getObjectsByIds($actorsIds, $this->actors);
+		return new Movie($movieData);
 	}
 
 	public function getMovies(string $genreId = "", string $query = ""): array
 	{
-		$movies = [];
-
 		$query = escape($query);
 
 		$dbQuery = $this->getBaseMoviesQuery();
@@ -182,10 +174,10 @@ class MovieDatabase
 		if ($isQuery)
 		{
 			$dbQuery = "
-			SELECT * FROM movie_index
-			inner join ($dbQuery) m on movie_index.ID = m.ID
-			WHERE MOVIE like ?;
-		";
+				SELECT * FROM movie_index
+				inner join ($dbQuery) m on movie_index.ID = m.ID
+				WHERE MOVIE like ?;
+			";
 		}
 
 		if ($isGenre && $isQuery)
@@ -207,11 +199,29 @@ class MovieDatabase
 			$result = $this->getResult($dbQuery);
 		}
 
-		while ($row = mysqli_fetch_assoc($result))
+		$movies = [];
+		while ($movieData = mysqli_fetch_assoc($result))
 		{
-			$movies[] = $row;
+			$movies[] = $this->prepareMovie($movieData);
 		}
 		return $movies;
+	}
+
+	public function getMovieById(int $id): ?Movie
+	{
+		$baseDbQuery = $this->getBaseMoviesQuery();
+
+		$dbQuery = $baseDbQuery . "
+			where movie.ID = ?
+		";
+
+		$result = $this->getResult($dbQuery, $id);
+
+		if ($movieData = mysqli_fetch_assoc($result))
+		{
+			return $this->prepareMovie($movieData);
+		}
+		return null;
 	}
 
 }

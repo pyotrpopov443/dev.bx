@@ -15,41 +15,20 @@ function formatDescription(string $description): string
 	return mb_strimwidth($description, 0, 180, "...");
 }
 
-function formatArray(array $arr): string
-{
-	return implode(', ', $arr);
-}
-
 function escape(string $str): string
 {
 	return htmlspecialchars(trim($str), ENT_QUOTES);
 }
 
-function getValuesFromKeys(array $keys, array $array): array
+function getObjectsByIds(array $ids, array $objects): array
 {
-	$genresNames = [];
-	foreach ($keys as $key)
+	$result = [];
+	foreach ($objects as $object)
 	{
-		$genresNames[] = $array[$key];
+		if (in_array((string)$object->getId(), $ids, true))
+		{
+			$result[] = $object;
+		}
 	}
-	return $genresNames;
-}
-
-function formatMovie(array $movie, array $genres, array $actors): array
-{
-	$genreIds = explode(', ', $movie['genres']);
-	$movie['genres'] = getValuesFromKeys($genreIds, $genres);
-	$actorIds = explode(', ', $movie['cast']);
-	$movie['cast'] = getValuesFromKeys($actorIds, $actors);
-	return $movie;
-}
-
-function formatMovies(array $movies, array $genres, array $actors): array
-{
-	$formattedMovies = [];
-	foreach ($movies as $movie)
-	{
-		$formattedMovies[] = formatMovie($movie, $genres, $actors);
-	}
-	return $formattedMovies;
+	return $result;
 }

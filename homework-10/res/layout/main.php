@@ -25,21 +25,19 @@
 		<div class="navigation">
 			<div class="menu-item">
 				<a href="index.php"
-				   class="<?= $currentMenuItem==='main' ? 'menu-item-active' : ''?>">
-					<?=$config['menu']['main']?></a>
+				   class="<?= $currentMenuItem === 'main' ? 'menu-item-active' : ''?>">
+					<?= $config['menu']['main']?></a>
 			</div>
-
-			<?php foreach ($genres as $key => $genre):?>
+			<?php foreach ($genres as $genre):?>
 				<div class="menu-item">
-					<a href="index.php?menu_item=<?= $key?>"
-					   class="<?= $currentMenuItem===$key ? 'menu-item-active' : ''?>"><?= $genre?></a>
+					<a href="index.php?menu_item=<?= $genre->getId()?>"
+					   class="<?= $currentMenuItem === (string)$genre->getId() ? 'menu-item-active' : ''?>"><?= $genre->getName()?></a>
 				</div>
 			<?php endforeach;?>
-
 			<div class="menu-item">
 				<a href="favorites.php"
-				   class="<?= $currentMenuItem===$config['menu']['favorites'] ? 'menu-item-active' : ''?>">
-					<?=$config['menu']['favorites']?></a>
+				   class="<?= $currentMenuItem === $config['menu']['favorites'] ? 'menu-item-active' : ''?>">
+					<?= $config['menu']['favorites']?></a>
 			</div>
 		</div>
 	</div>

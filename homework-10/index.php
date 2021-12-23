@@ -8,14 +8,12 @@ require_once 'render.php';
 require_once 'config.php';
 
 $database = new MovieDatabase($config['db_connection_settings']);
-
 $genres = $database->getGenres();
-$actors = $database->getActors();
 
 $menuItem = $_GET['menu_item'] ?? 'main';
 $query = $_GET['query'] ?? '';
 
-$genreId = array_key_exists($menuItem, $genres) ? $menuItem : '';
+$genreId = array_key_exists($menuItem, $genres) ? $menuItem : ''; //TODO: change method
 $movies = $database->getMovies($genreId, $query);
 
 if (empty($movies))
@@ -26,7 +24,6 @@ if (empty($movies))
 }
 else
 {
-	$movies = formatMovies($movies, $genres, $actors);
 	$content = renderTemplate('res/layout/movie_list.php', [
 		'movies' => $movies
 	]);

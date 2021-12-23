@@ -9,7 +9,6 @@ require_once 'config.php';
 
 $database = new MovieDatabase($config['db_connection_settings']);
 $genres = $database->getGenres();
-$actors = $database->getActors();
 
 $id = is_numeric($_GET['movie_id']) ? (int)$_GET['movie_id'] : 0;
 $movie = $database->getMovieById($id);
@@ -22,7 +21,6 @@ if (is_null($movie))
 }
 else
 {
-	$movie = formatMovie($movie, $genres, $actors);
 	$content = renderTemplate('res/layout/movie_details.php', [
 		'movie' => $movie
 	]);
