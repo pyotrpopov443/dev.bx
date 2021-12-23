@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import "movie.css";
+@import "movie-details.css";
+@import "favorites.css";
+@import "add-movie.css";
+@import "plug.css";
+
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	height: 100vh;
+}
+
+.btn {
+	text-align: center;
+	border-radius: 7px;
+	text-transform: uppercase;
+	font-family: 'Open Sans', sans-serif;;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 40px;
+	color: white;
+	background: #4EE7B0;
+}
+
+.menu {
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+	min-width: 400px;
+	height: 100vh;
+
+	background: #383838;
+}
+
+.logo {
+	display: block;
+	height: 67px;
+	margin: 52px 103px 20px 81px;
+
+	background: url("../drawable/ic_logo.svg") no-repeat;
+}
+
+.navigation {
+	flex: 1;
+	overflow: auto;
+}
+
+.menu-item {
+	display: block;
+	height: 70px;
+	margin: 0 30px;
+
+	border-bottom: 1px solid rgba(242, 242, 242, 0.1);
+	color: #B7B7B7;
+}
+
+.menu-item:last-child {
+	border-bottom: none;
+}
+
+.menu-item a {
+	display: flex;
+	height: 70px;
+	align-items: center;
+	padding: 0 15px;
+
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+	line-height: 22px;
+	color: #B7B7B7;
+}
+
+.menu-item a:hover {
+	background: rgba(255, 255, 255, 0.05);
+	color: white;
+}
+
+.menu-item-active {
+	background: rgba(255, 255, 255, 0.05);
+	color: white !important;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.searchbar {
+	display: flex;
+	height: 88px;
+	align-items: center;
+	justify-content: space-between;
+
+	background: white;
+}
+
+.search {
+	display: flex;
+	flex: 1;
+	align-items: center;
+}
+
+.search-line {
+	display: flex;
+	flex: 1;
+	min-width: 300px;
+	max-width: 777px;
+	margin: 21px 0 21px 43px;
+	align-items: center;
+	border-bottom: 1px solid #C4C4C4;
+}
+
+.search-icon {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url("../drawable/ic_search.svg") no-repeat;
+}
+
+.search-form {
+	display: flex;
+	align-items: center;
+	flex: 1;
+}
+
+.search-field {
+	margin: 0 19px;
+	flex: 1;
+
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 40px;
+	border: none transparent;
+	outline: none;
+	color: #999999;
+}
+
+.search-btn {
+	display: block;
+	width: 89px;
+	height: 40px;
+	margin: 0 15px;
+	color: white;
+	background: #E7A04E;
+	border: none;
+}
+
+.search-btn:hover {
+	color: #E7A04E;
+	background: white;
+	border: 1px solid #E7A04E;
+}
+
+.movie-add-btn {
+	display: block;
+	width: 158px;
+	height: 40px;
+	margin: 0 51px;
+	text-decoration: none;
+	background: #4EE7B0;
+	color: white;
+}
+
+.movie-add-btn:hover {
+	color: #4EE7B0;
+	background: white;
+	border: 1px solid #4EE7B0;
+}
+
+.content {
+	display: block;
+	flex: 1;
+	overflow: auto;
+	padding: 10px;
+
+	background: #f2f2f2;
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05) inset;
+}

@@ -1,97 +1,10 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" href="classwork.css">
-<!--	<script src="classwork.js"></script>-->
 </head>
 <body>
-
-<!--<div class="like" id="like"></div>-->
-<!--<div class="notify" id="notify">Liked</div>-->
-
-<div class="container">
-	<div class="cube">
-		<div class="side front"></div>
-		<div class="side back"></div>
-		<div class="side right"></div>
-		<div class="side left"></div>
-		<div class="side top"></div>
-		<div class="side bottom"></div>
-	</div>
-</div>
-
-<script>
-
-	let rotateX = 0;
-	let rotateY = 0;
-
-	let up = false;
-	let down = false;
-	let right = false;
-	let left = false;
-
-	setInterval(update, 16);
-
-	function update() {
-		if (up) rotateX += 2;
-		if (down) rotateX -= 2;
-		if (right) rotateY += 2;
-		if (left) rotateY -= 2;
-		rotateX %= 360; rotateY %= 360;
-		document.querySelector('.cube').style.transform =
-			'rotateY(' + rotateY + 'deg)' +
-			'rotateX(' + rotateX + 'deg)';
-	}
-
-	document.onkeydown = function(e) {
-		if (e.code === 'ArrowUp') up = true;
-		if (e.code === 'ArrowDown') down = true;
-		if (e.code === 'ArrowRight') right = true;
-		if (e.code === 'ArrowLeft') left = true;
-	};
-
-	document.onkeyup = function(e) {
-		if (e.code === 'ArrowUp') up = false;
-		if (e.code === 'ArrowDown') down = false;
-		if (e.code === 'ArrowRight') right = false;
-		if (e.code === 'ArrowLeft') left = false;
-	};
-
-</script>
-
-
-<!--<script>-->
-
-<!--	var likeNode =  document.getElementById('like');-->
-<!--	var notifyNode =  document.getElementById('notify');-->
-<!--	likeNode.addEventListener('click', function() {-->
-<!--		if (likeNode.classList.contains('red'))-->
-<!--		{-->
-<!--			likeNode.classList.remove('red');-->
-
-<!--			notifyNode.innerText = 'Removed like';-->
-<!--			notifyNode.classList.add('show');-->
-<!--			setTimeout(function() {-->
-<!--				notifyNode.classList.remove('show');-->
-<!--			}, 2000);-->
-<!--		}-->
-<!--		else-->
-<!--		{-->
-<!--			likeNode.classList.add('red');-->
-
-<!--			notifyNode.innerText = 'Liked' + ' MOVIE';-->
-<!--			notifyNode.classList.add('show');-->
-<!--			setTimeout(function() {-->
-<!--				notifyNode.classList.remove('show');-->
-<!--			}, 2000);-->
-<!--		}-->
-<!--	})-->
-
-<!--</script>-->
 
 </body>
 </html>
