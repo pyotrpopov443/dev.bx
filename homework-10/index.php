@@ -1,25 +1,25 @@
 <?php
 
 declare(strict_types=1);
-require_once 'data/MovieDatabase.php';
+
+require_once 'autoload.php';
 require_once 'helper-functions.php';
 require_once 'render.php';
-/** @var array $config */
-require_once 'config.php';
 
-$database = new MovieDatabase($config['db_connection_settings']);
+$config = Config::getInstance();
+$database = new MovieDatabase($config->getDbConnectionSettings());
 $genres = $database->getGenres();
 
-$menuItem = $_GET['menu_item'] ?? 'main';
-$query = $_GET['query'] ?? '';
+$menuItem = $_REQUEST['menu_item'] ?? 'main';
+$query = $_REQUEST['query'] ?? null;
 
-$genreId = array_key_exists($menuItem, $genres) ? $menuItem : ''; //TODO: change method
+$genreId = getGenreId($menuItem, $genres);
 $movies = $database->getMovies($genreId, $query);
 
 if (empty($movies))
 {
 	$content = renderTemplate('res/layout/plug.php', [
-		'plugText' => $config['strings']['movies_not_found']
+		'plugText' => $config->getString('movies_not_found')
 	]);
 }
 else
@@ -30,7 +30,6 @@ else
 }
 
 $main = renderTemplate('res/layout/main.php', [
-	'config' => $config,
 	'genres' => $genres,
 	'currentMenuItem' => $menuItem,
 	'content' => $content,

@@ -32,3 +32,15 @@ function getObjectsByIds(array $ids, array $objects): array
 	}
 	return $result;
 }
+
+function getGenreId(?string $code, array $genres): ?int
+{
+	foreach ($genres as $genre)
+	{
+		if ($genre->getCode() === $code)
+		{
+			return $genre->getId();
+		}
+	}
+	return null;
+}

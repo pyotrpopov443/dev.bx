@@ -1,22 +1,22 @@
 <?php
 
 declare(strict_types=1);
-require_once 'data/MovieDatabase.php';
+
+require_once 'autoload.php';
 require_once 'helper-functions.php';
 require_once 'render.php';
-/** @var array $config */
-require_once 'config.php';
 
-$database = new MovieDatabase($config['db_connection_settings']);
+$config = Config::getInstance();
+$database = new MovieDatabase($config->getDbConnectionSettings());
 $genres = $database->getGenres();
 
-$id = is_numeric($_GET['movie_id']) ? (int)$_GET['movie_id'] : 0;
+$id = is_numeric($_REQUEST['movie_id']) ? (int)$_REQUEST['movie_id'] : 0;
 $movie = $database->getMovieById($id);
 
 if (is_null($movie))
 {
 	$content = renderTemplate('res/layout/plug.php', [
-		'plugText' => $config['strings']['movie_not_found']
+		'plugText' => $config->getString('movie_not_found')
 	]);
 }
 else
@@ -27,7 +27,6 @@ else
 }
 
 $main = renderTemplate('res/layout/main.php', [
-	'config' => $config,
 	'genres' => $genres,
 	'currentMenuItem' => 'null',
 	'content' => $content,

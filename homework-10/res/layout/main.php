@@ -1,9 +1,10 @@
 <?php
-/** @var array $config */
 /** @var array $genres */
 /** @var array $content */
 /** @var array $currentMenuItem */
 /** @var array $query */
+
+$config = Config::getInstance();
 ?>
 
 <!doctype html>
@@ -17,31 +18,28 @@
 	<link rel="stylesheet" type="text/css" href="res/css/main.css">
 </head>
 <body>
-
 <div class="wrapper">
-
 	<div class="menu">
 		<div class="logo"></div>
 		<div class="navigation">
 			<div class="menu-item">
 				<a href="index.php"
 				   class="<?= $currentMenuItem === 'main' ? 'menu-item-active' : ''?>">
-					<?= $config['menu']['main']?></a>
+					<?= $config->getMenuItem('main')?></a>
 			</div>
 			<?php foreach ($genres as $genre):?>
 				<div class="menu-item">
-					<a href="index.php?menu_item=<?= $genre->getId()?>"
-					   class="<?= $currentMenuItem === (string)$genre->getId() ? 'menu-item-active' : ''?>"><?= $genre->getName()?></a>
+					<a href="index.php?menu_item=<?= $genre->getCode()?>"
+					   class="<?= $currentMenuItem === $genre->getCode() ? 'menu-item-active' : ''?>"><?= $genre->getName()?></a>
 				</div>
 			<?php endforeach;?>
 			<div class="menu-item">
 				<a href="favorites.php"
-				   class="<?= $currentMenuItem === $config['menu']['favorites'] ? 'menu-item-active' : ''?>">
-					<?= $config['menu']['favorites']?></a>
+				   class="<?= $currentMenuItem === 'favorites' ? 'menu-item-active' : ''?>">
+					<?= $config->getMenuItem('favorites')?></a>
 			</div>
 		</div>
 	</div>
-
 	<div class="container">
 		<div class="searchbar">
 			<div class="search">
@@ -56,13 +54,10 @@
 			</div>
 			<a class="btn movie-add-btn" href="add-movie.php">Добавить фильм</a>
 		</div>
-
 		<div class="content">
 			<?= $content?>
 		</div>
 	</div>
-
 </div>
-
 </body>
 </html>

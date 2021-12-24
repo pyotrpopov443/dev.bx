@@ -1,32 +1,28 @@
 <?php
 
-require_once 'Actor.php';
-require_once 'Genre.php';
-require_once 'Movie.php';
-
 class MovieDatabase
 {
 	private $database;
 	private $genres;
 	private $actors;
 
-	public function __construct(array $connectionSettings)
+	public function __construct(DatabaseConnectionSettings $settings)
 	{
-		$this->dbConnect($connectionSettings);
+		$this->dbConnect($settings);
 		$this->genres = $this->getGenres();
 		$this->actors = $this->getActors();
 	}
 
-	private function dbConnect(array $connectionSettings): void
+	private function dbConnect(DatabaseConnectionSettings $settings): void
 	{
 		$this->database = mysqli_init();
 
 		$connectionResult = mysqli_real_connect(
 			$this->database,
-			$connectionSettings['host'],
-			$connectionSettings['username'],
-			$connectionSettings['passwd'],
-			$connectionSettings['dbname']
+			$settings->getHost(),
+			$settings->getUsername(),
+			$settings->getPassword(),
+			$settings->getDatabaseName()
 		);
 
 		if (!$connectionResult)
@@ -154,14 +150,12 @@ class MovieDatabase
 		return new Movie($movieData);
 	}
 
-	public function getMovies(string $genreId = "", string $query = ""): array
+	public function getMovies(?int $genreId, ?string $query): array
 	{
-		$query = escape($query);
-
 		$dbQuery = $this->getBaseMoviesQuery();
 
-		$isGenre = $genreId !== "";
-		$isQuery = $query !== "";
+		$isGenre = isset($genreId);
+		$isQuery = isset($query);
 
 		if ($isGenre)
 		{
@@ -182,7 +176,7 @@ class MovieDatabase
 
 		if ($isGenre && $isQuery)
 		{
-			$query = "%$query%";
+			$query = escape("%$query%");
 			$result = $this->getResult($dbQuery, $genreId, $query);
 		}
 		else if ($isGenre)
@@ -191,7 +185,7 @@ class MovieDatabase
 		}
 		else if ($isQuery)
 		{
-			$query = "%$query%";
+			$query = escape("%$query%");
 			$result = $this->getResult($dbQuery, $query);
 		}
 		else
@@ -216,7 +210,6 @@ class MovieDatabase
 		";
 
 		$result = $this->getResult($dbQuery, $id);
-
 		if ($movieData = mysqli_fetch_assoc($result))
 		{
 			return $this->prepareMovie($movieData);
