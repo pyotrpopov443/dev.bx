@@ -7,7 +7,7 @@ require_once 'helper-functions.php';
 require_once 'render.php';
 
 $config = Config::getInstance();
-$database = new MovieDatabase($config->getDbConnectionSettings());
+$database = MovieDatabase::getInstance($config->getDbConnectionSettings());
 $genres = $database->getGenres();
 
 $menuItem = $_REQUEST['menu_item'] ?? 'main';

@@ -7,7 +7,7 @@ require_once 'helper-functions.php';
 require_once 'render.php';
 
 $config = Config::getInstance();
-$database = new MovieDatabase($config->getDbConnectionSettings());
+$database = MovieDatabase::getInstance($config->getDbConnectionSettings());
 $genres = $database->getGenres();
 
 $id = is_numeric($_REQUEST['movie_id']) ? (int)$_REQUEST['movie_id'] : 0;

@@ -2,15 +2,26 @@
 
 class MovieDatabase
 {
+	private static $instance = null;
+
 	private $database;
 	private $genres;
 	private $actors;
 
-	public function __construct(DatabaseConnectionSettings $settings)
+	private function __construct(DatabaseConnectionSettings $settings)
 	{
 		$this->dbConnect($settings);
 		$this->genres = $this->getGenres();
 		$this->actors = $this->getActors();
+	}
+
+	public static function getInstance(DatabaseConnectionSettings $settings): MovieDatabase
+	{
+		if (static::$instance === null)
+		{
+			static::$instance = new static($settings);
+		}
+		return static::$instance;
 	}
 
 	private function dbConnect(DatabaseConnectionSettings $settings): void

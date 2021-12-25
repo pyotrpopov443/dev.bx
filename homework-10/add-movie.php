@@ -6,7 +6,7 @@ require_once 'autoload.php';
 require_once 'render.php';
 
 $config = Config::getInstance();
-$database = new MovieDatabase($config->getDbConnectionSettings());
+$database = MovieDatabase::getInstance($config->getDbConnectionSettings());
 $genres = $database->getGenres();
 
 $content = renderTemplate('res/layout/add_movie.php');
