@@ -1,5 +1,6 @@
 <?php
-/** @var Movie $movie */
+/** @var MovieView $movieView */
+$movie = $movieView->getMovie();
 ?>
 
 <div class="movie">

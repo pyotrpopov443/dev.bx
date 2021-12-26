@@ -1,11 +1,25 @@
 <?php
-/** @var array $movies */
+/** @var MovieListView $movieListView */
+
+$config = Config::getInstance();
+$movies = $movieListView->getMovies();
 ?>
 
 <div class="movie-list">
-	<?php foreach ($movies as $movie): ?>
-		<?= renderTemplate("res/layout/movie.php", [
-			'movie' => $movie
-		]) ?>
-	<?php endforeach; ?>
+	<?php
+		if (empty($movies))
+		{
+			$plugView = new PlugView('res/layout/plug.php');
+			$plugView->setPlugText($config->getString('movies_not_found'));
+			$plugView->render();
+		}
+		else
+		{
+			foreach ($movies as $movie)
+			{
+				$movieView = new MovieView('res/layout/movie.php', $movie);
+				$movieView->render();
+			}
+		}
+	?>
 </div>

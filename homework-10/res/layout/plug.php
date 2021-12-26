@@ -1,5 +1,5 @@
 <?php
-/** @var array $plugText */
+/** @var PlugView $plugView */
 ?>
 
-<h1 class="plug"><?= $plugText?></h1>
+<h1 class="plug"><?= $plugView->getPlugText()?></h1>

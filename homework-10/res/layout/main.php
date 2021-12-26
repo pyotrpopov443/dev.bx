@@ -1,9 +1,5 @@
 <?php
-/** @var array $genres */
-/** @var array $content */
-/** @var array $currentMenuItem */
-/** @var array $query */
-
+/** @var MainView $mainView $config */
 $config = Config::getInstance();
 ?>
 
@@ -24,18 +20,18 @@ $config = Config::getInstance();
 		<div class="navigation">
 			<div class="menu-item">
 				<a href="index.php"
-				   class="<?= $currentMenuItem === 'main' ? 'menu-item-active' : ''?>">
+				   class="<?= $mainView->getCurrentMenuItem() === 'main' ? 'menu-item-active' : ''?>">
 					<?= $config->getMenuItem('main')?></a>
 			</div>
-			<?php foreach ($genres as $genre):?>
+			<?php foreach ($mainView->getGenres() as $genre):?>
 				<div class="menu-item">
 					<a href="index.php?menu_item=<?= $genre->getCode()?>"
-					   class="<?= $currentMenuItem === $genre->getCode() ? 'menu-item-active' : ''?>"><?= $genre->getName()?></a>
+					   class="<?= $mainView->getCurrentMenuItem() === $genre->getCode() ? 'menu-item-active' : ''?>"><?= $genre->getName()?></a>
 				</div>
 			<?php endforeach;?>
 			<div class="menu-item">
 				<a href="favorites.php"
-				   class="<?= $currentMenuItem === 'favorites' ? 'menu-item-active' : ''?>">
+				   class="<?= $mainView->getCurrentMenuItem() === 'favorites' ? 'menu-item-active' : ''?>">
 					<?= $config->getMenuItem('favorites')?></a>
 			</div>
 		</div>
@@ -47,7 +43,7 @@ $config = Config::getInstance();
 					<div class="search-line">
 						<div class="search-icon"></div>
 							<input type="text" id="query" name="query" class="search-field" placeholder="Поиск по каталогу..."
-							value="<?= $query?>">
+							value="<?= $mainView->getQuery()?>">
 					</div>
 					<input type="submit" value="Искать" class="btn search-btn">
 				</form>
@@ -55,7 +51,7 @@ $config = Config::getInstance();
 			<a class="btn movie-add-btn" href="add-movie.php">Добавить фильм</a>
 		</div>
 		<div class="content">
-			<?= $content?>
+			<?php $mainView->renderContent() ?>
 		</div>
 	</div>
 </div>
