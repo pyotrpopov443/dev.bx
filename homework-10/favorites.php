@@ -3,18 +3,8 @@
 declare(strict_types=1);
 
 require_once 'autoload.php';
-require_once 'render.php';
 
-$config = Config::getInstance();
-$database = MovieDatabase::getInstance($config->getDbConnectionSettings());
-$genres = $database->getGenres();
-
-$content = renderTemplate('res/layout/favorites.php');
-$main = renderTemplate('res/layout/main.php', [
-	'genres' => $genres,
-	'currentMenuItem' => 'favorites',
-	'content' => $content,
-	'query' => ''
-]);
-
-echo $main;
+$mainView = new MainView('res/layout/main.php');
+$favoritesView = new FavoritesView('res/layout/favorites.php');
+$mainView->setContent($favoritesView);
+$mainView->render();

@@ -12,15 +12,7 @@ class MovieView extends View
 
 	public function render(): void
 	{
-		if (file_exists($this->layout))
-		{
-			$movieView = $this;
-			include $this->layout;
-		}
-		else
-		{
-			echo "Layout not found";
-		}
+		$this->renderView('movieView', $this);
 	}
 
 	public function getMovie(): Movie

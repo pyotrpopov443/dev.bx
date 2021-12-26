@@ -11,15 +11,7 @@ class MovieListView extends View
 
 	public function render(): void
 	{
-		if (file_exists($this->layout))
-		{
-			$movieListView = $this;
-			include $this->layout;
-		}
-		else
-		{
-			echo "Layout not found";
-		}
+		$this->renderView('movieListView', $this);
 	}
 
 	public function loadMovies(?int $genreId, ?string $query): void

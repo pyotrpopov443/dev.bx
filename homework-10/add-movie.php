@@ -3,18 +3,8 @@
 declare(strict_types=1);
 
 require_once 'autoload.php';
-require_once 'render.php';
 
-$config = Config::getInstance();
-$database = MovieDatabase::getInstance($config->getDbConnectionSettings());
-$genres = $database->getGenres();
-
-$content = renderTemplate('res/layout/add_movie.php');
-$main = renderTemplate('res/layout/main.php', [
-	'genres' => $genres,
-	'currentMenuItem' => 'main',
-	'content' => $content,
-	'query' => ''
-]);
-
-echo $main;
+$mainView = new MainView('res/layout/main.php');
+$addMovieView = new AddMovieView('res/layout/add_movie.php');
+$mainView->setContent($addMovieView);
+$mainView->render();

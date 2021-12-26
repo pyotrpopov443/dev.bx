@@ -20,15 +20,7 @@ class MainView extends View
 
 	public function render(): void
 	{
-		if (file_exists($this->layout))
-		{
-			$mainView = $this;
-			include $this->layout;
-		}
-		else
-		{
-			echo "Layout not found";
-		}
+		$this->renderView('mainView', $this);
 	}
 
 	public function setContent(View $content): void
