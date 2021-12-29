@@ -1,7 +1,7 @@
 <?php
-/** @var DetailedMovieView $detailedMovie */
+/** @var DetailedMovieView $detailedMovieView */
 
-$movie = $detailedMovie->getMovie();
+$movie = $detailedMovieView->getMovie();
 ?>
 
 <?php if(isset($movie)) {?>

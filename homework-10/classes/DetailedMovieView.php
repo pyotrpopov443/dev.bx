@@ -18,7 +18,7 @@ class DetailedMovieView extends View
 
 	public function render(): void
 	{
-		$this->renderView('detailedMovie', $this);
+		$this->renderView('detailedMovieView', $this);
 	}
 
 	public function getMovie(): ?Movie
