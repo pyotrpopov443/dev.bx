@@ -17,7 +17,7 @@ $movies = $movieListView->getMovies();
 		{
 			foreach ($movies as $movie)
 			{
-				$movieView = new MovieView('res/layout/movie.php', $movie);
+				$movieView = new MovieCardView('res/layout/movie_card.php', $movie);
 				$movieView->render();
 			}
 		}

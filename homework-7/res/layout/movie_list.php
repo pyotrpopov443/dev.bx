@@ -4,7 +4,7 @@
 
 <div class="movie-list">
 	<?php foreach ($movies as $movie): ?>
-		<?= renderTemplate("res/layout/movie.php", [
+		<?= renderTemplate("res/layout/movie_card.php", [
 			'movie' => $movie
 		]) ?>
 	<?php endforeach; ?>

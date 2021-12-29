@@ -1,6 +1,6 @@
 <?php
 
-class MovieView extends View
+class MovieCardView extends View
 {
 	private $movie;
 
@@ -12,7 +12,7 @@ class MovieView extends View
 
 	public function render(): void
 	{
-		$this->renderView('movieView', $this);
+		$this->renderView('movieCardView', $this);
 	}
 
 	public function getMovie(): Movie

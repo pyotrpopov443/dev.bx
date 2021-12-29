@@ -1,4 +1,4 @@
-.movie {
+.movie-card {
 	position: relative;
 	display: inline-flex;
 	flex-direction: column;
@@ -108,7 +108,7 @@
 	transition: .3s;
 }
 
-.movie:hover .movie-overlay {
+.movie-card:hover .movie-overlay {
 	opacity: 1;
 }
 

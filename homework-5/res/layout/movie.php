@@ -2,7 +2,7 @@
 /** @var array $movie */
 ?>
 
-<div class="movie">
+<div class="movie-card">
 	<div class="movie-overlay">
 		<a class="more-btn" href="index.php?movie_id=<?= $movie['id']?>">Подробнее</a>
 	</div>

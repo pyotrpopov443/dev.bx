@@ -1,9 +1,9 @@
 <?php
-/** @var MovieView $movieView */
-$movie = $movieView->getMovie();
+/** @var MovieCardView $movieCardView */
+$movie = $movieCardView->getMovie();
 ?>
 
-<div class="movie">
+<div class="movie-card">
 	<div class="movie-overlay">
 		<a class="more-btn" href="detailed-movie.php?movie_id=<?= $movie->getId()?>">Подробнее</a>
 	</div>
